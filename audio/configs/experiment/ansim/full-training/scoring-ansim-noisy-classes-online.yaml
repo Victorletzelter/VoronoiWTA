@@ -1,0 +1,61 @@
+# @package _global_
+
+# to execute this experiment run:
+# python train.py experiment=example
+
+data: 
+  root: ${oc.env:PROJECT_ROOT}/data/ansim/
+  tmp_dir: ${oc.env:PROJECT_ROOT}/data/tmp/
+  batch_size: 32
+  test_fold_idx: 1
+  noisy_version: True
+  shuffle_train_set: True
+  data_loading_mode: 'noisy-classes'
+  sigma_classes: [5,10,15,20,25,30,35,40,45,50,55]
+  offline: False
+  chunk_length: 2 
+
+model:
+
+  dataset_path : ${oc.env:PROJECT_ROOT}/data/ansim
+
+  hparams:
+    results_dir: null
+    name: 'MHCONFSELDNet'
+    conf_weight: 1.
+    num_hypothesis: 10
+    distance: 'spherical'
+    dist_type_eval: 'spherical'
+    rejection_method: 'all'
+    number_unconfident : 1
+    mode: 'wta'
+    num_sources_per_sample_min: 0 # Number of sources considered > num_sources_per_sample_min 
+    num_sources_per_sample_max: 3 # Number of sources considered <= num_sources_per_sample_max
+    noisy_version: True
+    sigma_points_mode: False
+    data_loading_mode: 'noisy-classes'
+    sigma_classes: [5,10,15,20,25,30,35,40,45,50,55]
+    offline: False
+    online: True
+    online_val: False  
+    chunk_length: 2
+    kernel_mode_emd: False
+    N_samples_predicted_dist: 50
+    N_samples_mog: 50
+    compute_nll: False
+ 
+trainer:
+  max_epochs: 101
+
+hydra:
+  job :
+    name: "Score_based_WTA"
+
+  run:
+    dir: ${paths.log_dir}/${task_name}/ansim/Score_based_WTA/${now:%Y-%m-%d}_${now:%H-%M-%S}_${hydra:job.name}
+
+logger:
+  mlflow:
+    experiment_name: "ansim-full-trainings"
+
+seed: 9999

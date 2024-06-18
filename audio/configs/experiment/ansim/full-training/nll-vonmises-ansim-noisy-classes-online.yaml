@@ -1,0 +1,74 @@
+# @package _global_
+
+# to execute this experiment run:
+# python train.py experiment=example
+
+data: 
+  root: ${oc.env:PROJECT_ROOT}/data/ansim/
+  tmp_dir: ${oc.env:PROJECT_ROOT}/data/tmp/
+  batch_size: 32
+  test_fold_idx: 1
+  noisy_version: True
+  shuffle_train_set: True
+  data_loading_mode: 'noisy-classes'
+  sigma_classes: [5,10,15,20,25,30,35,40,45,50,55]
+  offline: False
+  chunk_length: 2 
+
+model:
+
+  dataset_path : ${oc.env:PROJECT_ROOT}/data/ansim
+
+  hparams : 
+    name: 'MHMIXTURE_VONMISES_NLLSELDNet'
+    max_num_sources: 3
+    sequence_duration: 30
+    num_fft_bins: 2048
+    frame_length: 0.04
+    chunk_length: 2
+    hidden_dim: 128
+    dropout_rate: 0
+    learning_rate: 0.05
+    num_epochs_warmup: 5
+    
+    num_modes: 3
+    log_var_pred: False
+    results_dir: null # Result directory with json files, additionnaly to the eval directory in the logs generated. 
+    mode: 'wta'
+    epsilon: 0.5
+    top_n: 3
+    distance: 'spherical'
+    conf_weight: 1.
+    rejection_method: 'all'
+    number_unconfident: 3
+    dist_type_eval: 'spherical'
+    num_sources_per_sample_min: 0 # Number of sources considered > num_sources_per_sample_min 
+    num_sources_per_sample_max: 3 # Number of sources considered <= num_sources_per_sample_max
+    noisy_version: True
+    sigma_points_mode: False
+    data_loading_mode: 'noisy-classes'
+    sigma_classes: [5,10,15,20,25,30,35,40,45,50,55]
+    offline: False
+    online: True
+    online_val: False
+    N_samples_mog: 50
+    N_samples_predicted_dist: 50
+    compute_nll: True
+    kernel_mode_emd: False
+    num_classes: 11
+
+trainer:
+  max_epochs: 101
+  limit_test_batches: 1.0
+
+hydra:
+  job :
+    name: "Von_Mises_Fisher"
+  run:
+    dir: ${paths.log_dir}/${task_name}/ansim/Von_Mises_Fisher/${now:%Y-%m-%d}_${now:%H-%M-%S}_${hydra:job.name}
+
+logger:
+  mlflow:
+    experiment_name: "von_mises_fisher"
+
+seed: 9999

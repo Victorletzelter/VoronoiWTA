@@ -1,0 +1,23 @@
+# @package _global_
+
+defaults:
+  - _self_
+  - data: ansim.yaml # choose datamodule with `test_dataloader()` for evaluation
+  - model: WTABased.yaml
+  - logger: many_loggers.yaml
+  - trainer: default.yaml
+  - paths: default.yaml
+  - extras: default.yaml
+  - hydra: default.yaml
+
+  - experiment : setup.yaml
+
+task_name: "eval"
+
+tags: ["dev"]
+
+# passing checkpoint path is necessary for evaluation
+
+ckpt_path: null
+
+seed: 1000

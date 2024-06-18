@@ -1,0 +1,20 @@
+# @package _global_
+
+defaults:
+  - _self_
+  - data: synthetic_data.yaml
+  - model: WTABased.yaml
+  - logger: many_loggers.yaml
+  - trainer: default
+  - paths: default
+  - extras: default
+  - hydra: default
+
+  - experiment: setup.yaml
+
+task_name: "eval"
+
+tags: ["dev"]
+
+# passing checkpoint path is necessary for evaluation
+ckpt_path: null

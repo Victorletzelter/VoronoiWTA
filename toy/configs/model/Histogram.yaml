@@ -1,0 +1,58 @@
+_target_: src.models.Histogram.Histogram
+
+kernel_type: "gauss_normalized"
+scaling_factor: 1
+closed_form_vol: True
+restrict_to_square: True
+# num_hidden_units: 256
+hidden_layers: [256, 256]
+input_dim: 1
+square_size: 5
+hit_and_run_sampling: False
+num_hypothesis: 1
+
+hparams:
+  # training loss params
+  name: "histogram"
+  training_number_unconfident: 1
+  training_wta_mode: "wta"
+  training_top_n: 1
+  training_rejection_method: "all"
+  training_epsilon: 0.05
+  training_conf_weight: 1.
+  training_distance: "euclidean-squared"
+
+  # optimization params
+  optimizer: "Adam"
+  learning_rate: 0.001
+
+  ### eval args
+  custom_eval_computation: False
+  dist_type_eval: "euclidean"
+
+  # NLL params
+  compute_nll: True
+  kde_mode_nll: False
+  kde_weighted_nll: False
+  N_samples_directions: 40
+  N_samples_dir: 40
+  h_optimization: False
+
+  denormalize_predictions: False
+
+  # EMD params
+  compute_emd: False
+  kernel_mode_emd: False
+  n_gt_samples_per_frame: 500
+  N_samples_predicted_dist: 500
+
+  # Risk params
+  compute_risk: True
+
+  # MSE params
+  compute_mse: True
+
+  plot_mode: False
+
+sizes: [3]
+output_dim: 1

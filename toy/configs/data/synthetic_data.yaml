@@ -1,0 +1,9 @@
+_target_: src.data.synthetic.SyntheticData
+
+batch_size: 1024
+num_workers: 4
+hparams: 
+  n_samples_train: 100000
+  n_samples_val: 25000
+  shift_mode: False
+  name: "single_gaussian"

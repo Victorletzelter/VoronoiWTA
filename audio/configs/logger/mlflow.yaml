@@ -1,0 +1,13 @@
+# https://mlflow.org
+
+mlflow:
+  _target_: pytorch_lightning.loggers.mlflow.MLFlowLogger
+  experiment_name: "setup"
+  run_name: ${hydra:job.name}
+  # tracking_uri: ${paths.log_dir}/mlflow/mlruns # run `mlflow ui` command inside the `logs/mlflow/` dir to open the UI
+  tracking_uri: audio/logs/mlflow/mlruns
+  tags: null
+  # save_dir: "./mlruns"
+  prefix: ""
+  artifact_location: null
+  # run_id: ""

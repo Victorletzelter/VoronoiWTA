@@ -1,0 +1,38 @@
+_target_: src.models.GaussMix.GaussMix
+
+hparams:
+  name : "gauss_mix"
+  optimizer: "Adam"
+  learning_rate: 0.001
+  dist_type_eval: "euclidean"
+
+  # NLL params
+  compute_nll: True
+  kde_mode_nll: False
+  N_samples_directions: 40
+  N_samples_dir: 30
+  h_optimization: None
+  check_nll_normalization: False
+  denormalize_predictions: False
+
+  # EMD params
+  compute_emd: False
+  kernel_mode_emd: False
+  n_gt_samples_per_frame: 500
+  N_samples_predicted_dist: 500
+
+  # Risk params
+  compute_risk: True
+
+  # MSE params
+  compute_mse: True
+
+  plot_mode: False
+
+log_var_pred: True 
+restrict_to_square: False 
+hidden_layers: [256, 256]
+num_hypothesis: 3
+output_dim: 2
+input_dim: 1
+square_size: None

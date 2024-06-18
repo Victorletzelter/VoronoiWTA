@@ -1,0 +1,67 @@
+_target_: src.models.Rmcl.Rmcl
+
+kernel_type: "gauss_normalized"
+scaling_factor: 1
+num_hypothesis: 20
+closed_form_vol: True
+restrict_to_square: True
+hidden_layers: [256, 256]
+input_dim: 1
+output_dim: 2
+square_size: 5
+hit_and_run_sampling: False
+
+hparams:
+  # training loss params
+  name: "rmcl"
+  training_number_unconfident: 1
+  training_wta_mode: "wta"
+  training_top_n: 1
+  training_rejection_method: "all"
+  training_epsilon: 0.05
+  training_conf_weight: 1.
+  training_distance: "euclidean-squared"
+
+  # optimization params
+  optimizer: "Adam"
+  learning_rate: 0.001
+
+  ### eval args
+  custom_eval_computation: False
+  dist_type_eval: "euclidean"
+
+  # NLL params
+  compute_nll: True
+  kde_mode_nll: False
+  kde_weighted_nll: True
+  N_samples_directions: 40
+  N_samples_dir: 40
+  check_nll_normalization: False
+
+  # h optimization params
+  h_optimization: False
+  h_min: 0.1
+  h_max: 2
+  limit_val_batches_h_opt: None
+  batch_size_h_opt: 256
+  h_tol: 0.1
+
+  denormalize_predictions: False
+
+  # EMD params
+  compute_emd: False
+  kernel_mode_emd: False
+  n_gt_samples_per_frame: 500
+  N_samples_predicted_dist: 500
+
+  # Risk params
+  compute_risk: True
+  compute_risk_val: True
+
+  # MSE params
+  compute_mse: True
+
+  # Plot params
+  plot_mode: False
+  plot_mode_training: False
+  plot_training_frequency: 1

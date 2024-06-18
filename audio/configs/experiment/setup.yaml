@@ -1,0 +1,35 @@
+# @package _global_
+
+# to execute this experiment run:
+# python train.py experiment=example
+
+data: 
+  root: ${oc.env:PROJECT_ROOT}/data/ansim/
+  tmp_dir: datasets_local/ansim/tmp/ansim-class-noise-online
+  batch_size: 16
+  test_fold_idx: 1
+  noisy_version: True
+  data_loading_mode: 'noisy-classes'
+
+defaults:
+  - override /callbacks: setup.yaml
+  - override /hydra: setup.yaml
+
+model:
+  hparams:
+    results_dir: null
+    data_loading_mode: 'noisy-classes'
+  
+hydra:
+  job :
+    name: "00000"
+  run:
+    dir: ${paths.log_dir}/${task_name}/setup-runs/${now:%Y-%m-%d}_${now:%H-%M-%S}_${hydra:job.name}
+
+trainer:
+  limit_test_batches: 2
+  limit_val_batches: 1
+  limit_train_batches: 2
+  max_steps: 1
+  val_check_interval: 1
+  max_epochs: 1
